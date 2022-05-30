@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         int[][]dataFrame=dataPrep(); //dataPrep function returns a two-dimenssional array
         double slope=LR.getSlope(dataFrame); //LR class, which provides slope on invoking getSlope
         new AlertDialog.Builder(this)
-               // .setIcon() //your custom icon
+                // .setIcon() //your custom icon
                 .setTitle("Performance")
 
                 .setMessage(getInterpretation(dataFrame,slope))
@@ -72,29 +72,20 @@ public class MainActivity extends AppCompatActivity {
     public void newMatch() {  //A game is composed of three matches
 
         int operand1 = random.nextInt(10);
-        int operand2= random.nextInt(10);
+        int operand2=random.nextInt(10);
         //check is operand2 is not zero; otherwise in case of division-divide by zero error will come
         String operator = operators[random.nextInt(4)];
         textView2.setText(operand1 + operator + operand2);
-
-      // Your code here, to diplay correct and incorrect options on the buttons
         int correctanswer=-100;
-            if(operator.equals("+"))
-
-                 correctanswer=operand1+operand2;
-
-            else if(operator.equals("-"))
-
-                 correctanswer=operand1-operand2;
-
-            else if(operator.equals("/"))
-
-                 correctanswer=operand1/operand2;
-
-            else
-
-                 correctanswer=operand1*operand2;
-
+        if(operator.equals("+"))
+            correctanswer=operand1+operand2;
+        else if(operator.equals("-"))
+            correctanswer=operand1-operand2;
+        else if(operator.equals("/"))
+            correctanswer=operand1/operand2;
+        else
+            correctanswer=operand1*operand2;
+        // Your code here, to diplay correct and incorrect options on the buttons
         correctButton=random.nextInt(4);
         if(correctButton==0)
         {
@@ -123,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             button1.setText(correctanswer + -1 + "");
             button3.setText(correctanswer + 2 + "");
         }
+
         if(matchCounter==3){    // if three matches are completed updatee the perfomrance in sharedpreferences
 
             matchCounter=0;
@@ -139,7 +131,11 @@ public class MainActivity extends AppCompatActivity {
     public int sumOfScore(){
         //Computing the sum of score array, which has the 1 or in each index,depending on correct or incorrect answers
         int sum=0;
-       // your code here
+        // your code here
+        for(int i=0;i<score.length;i++)
+        {
+            sum+=score[i];
+        }
         return sum;
     }
 
@@ -157,8 +153,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getInterpretation(int [][]dataFrame,double slope){
-       //provide interpretation based on your slope analysis
+        //provide interpretation based on your slope analysis
         // Your code here
-        return "Your Interpretation";
+        String spaceinterpret="";
+        if(slope>0 && slope<=0.5)
+            spaceinterpret="good learner";
+        else if(slope>=0.5)
+            spaceinterpret="very good learner";
+        else if(slope<0)
+            spaceinterpret="unlearner";
+        else if(dataFrame[0][1]==3 && slope==0)
+            spaceinterpret="perfection";
+        else if(dataFrame[0][1]==0 && slope==0)
+            spaceinterpret="did not learn";
+        return spaceinterpret;
     }
 }
